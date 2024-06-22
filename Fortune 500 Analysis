@@ -1,0 +1,48 @@
+SELECT *
+From fortune_companies;
+
+--Group the data in a new way using a CASE statement.--
+-- Fiding avg PTO days in tech industry--
+
+SELECT AVG(paid_time_off_days)
+FROM fortune_companies
+WHERE industry='Technology'
+; 
+-- Case statement used to show companies paid time off in below AVG, AVG, ABOVE AVG in the tech industry--
+SELECT
+company_name,
+CASE
+	WHEN paid_time_off_days >= 23 THEN 'Above Average (23 or More)'
+    WHEN paid_time_off_days >= 20 Then 'Average (20 to 22)'
+    Else 'Below Average (19 days or less)'
+    END as PTO_Grade
+FROM fortune_companies
+WHERE industry='Technology'
+;
+
+--Use a HAVING clause to determine something interesting about the data per category--
+--Which industries have an average tenure of at least 6 years, and what are their PTO?--
+
+SELECT industry, ROUND(AVG(avg_employee_tenure),1) as avg_industry_tenure
+FROM fortune_companies
+GROUP BY industry
+HAVING avg_industry_tenure >5.5
+;
+
+--Use logical operators like AND or OR to filter the data in an interesting way.--
+--Select companies that have Healthcare Benefits AND over 13 Maternity Weeks--
+
+SELECT company_name
+FROM fortune_companies
+WHERE maternity_leave_weeks>=13
+AND healthcare_benefits=1
+;
+
+
+--Use an aggregate function like AVG, SUM, COUNT, MAX, and/or MIN to return summary statistics about the data.--
+--Which Energy Company has the lowest amount of employees, and what is their revenue?--
+
+Select company_name, min(employees)
+FROM fortune_companies
+WHERE industry = 'Energy'
+;
