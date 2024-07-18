@@ -1,0 +1,78 @@
+--This is my first data inquiry on my own.--
+-- I found weapon data from a videogame I play, The First Decendant--
+--I used the data to help find the best weapons in the game--
+-- Data was found from tfd_calculator by mogitdb https://github.com/mogitdb/tfd_calculator/tree/main--
+
+--First, I created a table to insert the weapon data into--
+--I  then preformed analytics on the data using SQL.--
+
+CREATE TABLE BIT_DB.Weapons (
+name varchar NOT NULL,
+tier varchar NOT NULL,
+type varchar NOT NULL,
+rounds varchar NOT NULL,
+level integer NOT NULL,
+fire_atk integer NOT NULL,
+fire_rate integer NOT NULL,
+magazine integer NOT NULL,
+reload decimal(3,2) NOT NULL,
+crit_chance integer NOT NULL,
+crit_damage decimal(3,2) NOT NULL,
+status_chance decimal(4,2) NOT NULL,
+weakpoint decimal(3,2) NOT NULL,
+base_dps integer NOT NULL,
+crit_dps integer NOT NULL,
+weakpoint_dps integer NOT NULL
+)
+;
+
+
+--What weapons have the overall highest base_dps?--
+
+SELECT name,
+tier,
+type,
+rounds,
+base_dps
+FROM BIT_DB.Weapons
+ORDER BY base_dps
+LIMIT 10
+;
+
+--What general round weapon has the highest base dps and crit chance of 20?--
+
+SELECT name,
+tier,
+type,
+base_dps,
+crit_chance
+FROM BIT_DB.Weapons
+WHERE rounds = 'General Rounds'
+AND crit_chance = '20%'
+;
+
+--What is the base and crit DPS of the submachine gun with the quickest reload and highest fire rate?--
+
+SELECT name,
+tier,
+fire_rate,
+reload,
+base_dps,
+crit_dps
+FROM BIT_DB.Weapons
+WHERE type = 'Submachine Gun'
+ORDER BY fire_rate desc
+LIMIT 1
+;
+
+--What weapon with a weakpoint of 2 has the highest base DPS, crit DPS, and weakpoint DPS?--
+
+SELECT name,
+type,
+weakpoint_dps,
+base_dps,
+crit_dps
+FROM BIT_DB.Weapons
+WHERE weakpoint = '2.00x'
+ORDER BY weakpoint_dps desc
+;
